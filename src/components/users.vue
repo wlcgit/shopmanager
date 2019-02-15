@@ -13,7 +13,7 @@
                 <el-input @clear="getAllUsers()" clearable class="searchInput" placeholder="请输入内容" v-model="query">
                     <el-button @click="searchUser()" slot="append" icon="el-icon-search"></el-button>
                 </el-input>
-                <el-button type="primary">添加用户</el-button>
+                <el-button type="primary" @click="showDiaAddUser()">添加用户</el-button>
             </el-col>
         </el-row>
 
@@ -56,6 +56,29 @@
         <!-- 分页 -->
         <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="pagenum" :page-sizes="[2, 4, 6, 8]" :page-size="2" layout="total, sizes, prev, pager, next, jumper" :total="total">
         </el-pagination>
+        <!-- 对话框 添加用户对话框 -->
+        <el-dialog title="收货地址" :visible.sync="dialogFormVisibleAdd">
+            <el-form :model="form">
+                <el-form label-position="left" label-width="80px" :model="formdata">
+                    <el-form-item label="用户名">
+                        <el-input v-model="formdata.username"></el-input>
+                    </el-form-item>
+                    <el-form-item label="密码">
+                        <el-input v-model="formdata.password"></el-input>
+                    </el-form-item>
+                    <el-form-item label="邮箱">
+                        <el-input v-model="formdata.email"></el-input>
+                    </el-form-item>
+                    <el-form-item label="电话">
+                        <el-input v-model="formdata.mobile"></el-input>
+                    </el-form-item>
+                </el-form>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="dialogFormVisibleAdd = false">取 消</el-button>
+                <el-button type="primary" @click="dialogFormVisibleAdd = false">确 定</el-button>
+            </div>
+        </el-dialog>
     </el-card>
 </template>
 
@@ -67,13 +90,26 @@ export default {
       pagenum: 1,
       pagesize: 2,
       total: -1,
-      list: []
+      list: [],
+      //   对话框
+      dialogFormVisibleAdd: false,
+      //   表单数据
+      formdata: {
+        username: "",
+        password: "",
+        email: "",
+        mobile: ""
+      }
     };
   },
   created() {
     this.getTableData();
   },
   methods: {
+    //   添加用户，展示对话框
+    showDiaAddUser() {
+      this.dialogFormVisibleAdd = true;
+    },
     //   请客获取用户
     getAllUsers() {
       this.getTableData();
