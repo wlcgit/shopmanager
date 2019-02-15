@@ -10,8 +10,8 @@
         <!-- 搜索框 -->
         <el-row class="searchBox">
             <el-col>
-                <el-input class="searchInput" placeholder="请输入内容" v-model="query">
-                    <el-button slot="append" icon="el-icon-search"></el-button>
+                <el-input @clear="getAllUsers()" clearable class="searchInput" placeholder="请输入内容" v-model="query">
+                    <el-button @click="searchUser()" slot="append" icon="el-icon-search"></el-button>
                 </el-input>
                 <el-button type="primary">添加用户</el-button>
             </el-col>
@@ -54,6 +54,8 @@
         </el-table>
 
         <!-- 分页 -->
+        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="pagenum" :page-sizes="[2, 4, 6, 8]" :page-size="2" layout="total, sizes, prev, pager, next, jumper" :total="total">
+        </el-pagination>
     </el-card>
 </template>
 
@@ -63,7 +65,8 @@ export default {
     return {
       query: "",
       pagenum: 1,
-      pagesize: 6,
+      pagesize: 2,
+      total: -1,
       list: []
     };
   },
@@ -71,6 +74,28 @@ export default {
     this.getTableData();
   },
   methods: {
+    //   请客获取用户
+    getAllUsers() {
+      this.getTableData();
+    },
+    //   搜索
+    searchUser() {
+      this.pagenum = 1;
+      this.getTableData();
+    },
+
+    //分页相关的方法
+    handleSizeChange(val) {
+      console.log(`每页 ${val} 条`);
+      this.pagenum = 1;
+      this.pagesize = val;
+      this.getTableData();
+    },
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`);
+      this.pagenum = val;
+      this.getTableData();
+    },
     async getTableData() {
       const AUTH_TOKEN = localStorage.getItem("token");
       this.$http.defaults.headers.common["Authorization"] = AUTH_TOKEN;
@@ -81,6 +106,7 @@ export default {
       );
       const { data, meta: { status, msg } } = res.data;
       if (status === 200) {
+        this.total = data.total;
         this.list = data.users;
       }
     }
