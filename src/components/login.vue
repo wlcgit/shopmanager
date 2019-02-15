@@ -10,7 +10,7 @@
         <el-form-item label="密码">
      <el-input v-model="formdata.password"></el-input>
      </el-form-item>
-     <el-button 
+     <el-button
      @click.prevent ="handlelogin()"
      class="login-btn" type="primary">登录</el-button>
 </el-form>
@@ -19,32 +19,31 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
       formdata: {
-        username: "",
-        password: ""
+        username: '',
+        password: ''
       }
-    };
+    }
   },
   methods: {
-    async handlelogin() {
-      const res = await this.$http.post(`login`, this.formdata);
-      console.log(res);
-const { data: { data:{token}, meta: { mag, status } } } = res;
+    async handlelogin () {
+      const res = await this.$http.post(`login`, this.formdata)
+      console.log(res)
+      const { data: { data: {token}, meta: { msg, status } } } = res
 
-if (status === 200) {
-
-    localStorage.setItem("token",token);
+      if (status === 200) {
+        localStorage.setItem('token', token)
         this.$router.push({
-          name: "home"
-        });
+          name: 'home'
+        })
       } else {
-        this.$message.error(msg);
+        this.$message.error(msg)
       }
     }
   }
-};
+}
 </script>
 
 <style>
