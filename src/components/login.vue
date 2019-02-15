@@ -31,10 +31,10 @@ export default {
     async handlelogin() {
       const res = await this.$http.post(`login`, this.formdata);
       console.log(res);
-      const { data: { data: { token }, meta: { msg, status } } } = res;
+      const { data: { data, meta: { msg, status } } } = res;
 
       if (status === 200) {
-        localStorage.setItem("token", token);
+        localStorage.setItem("token", data.token);
         this.$router.push({
           name: "home"
         });
@@ -62,6 +62,5 @@ export default {
 }
 .login-btn {
   width: 100%;
-  background: #000;
 }
 </style>
