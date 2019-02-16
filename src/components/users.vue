@@ -45,7 +45,7 @@
             <el-table-column prop="name" label="操作" width="200">
                 <template slot-scope="scope">
                     <el-button type="primary" icon="el-icon-edit" circle size="mini" plain></el-button>
-                    <el-button type="danger" icon="el-icon-delete" circle size="mini" plain></el-button>
+                    <el-button @click="showMsgBox(scope.row)" type="danger" icon="el-icon-delete" circle size="mini" plain></el-button>
                     <el-button type="success" icon="el-icon-check" circle size="mini" plain></el-button>
                 </template>
 
@@ -76,7 +76,7 @@
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="dialogFormVisibleAdd = false">取 消</el-button>
-                <el-button type="primary" @click="dialogFormVisibleAdd = false">确 定</el-button>
+                <el-button type="primary" @click="addUser()">确 定</el-button>
             </div>
         </el-dialog>
     </el-card>
@@ -106,8 +106,43 @@ export default {
     this.getTableData();
   },
   methods: {
+    //   删除 弹出确认框
+    showMsgBox(user) {
+      this.$confirm("是否删除用户?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(async () => {
+          // 发送请求
+          const res = await this.$http.delete(`users/${user.id}`);
+
+          const { meta: { msg, status } } = res.data;
+          if (status === 200) {
+            // 提示框
+            this.$message.success(msg);
+            this.pagenum = 1;
+            this.getTableData();
+          }
+        })
+        .catch(() => {
+          this.$message.info("已取消删除");
+        });
+    },
+
+    //   添加用户 发送请求
+    async addUser() {
+      const res = await this.$http.post(`users`, this.formdata);
+
+      // 关闭对话框
+      this.dialogFormVisibleAdd = false;
+      //    更新表格
+      this.getTableData();
+    },
     //   添加用户，展示对话框
     showDiaAddUser() {
+      //   清空;
+      this.formdata = {};
       this.dialogFormVisibleAdd = true;
     },
     //   请客获取用户
