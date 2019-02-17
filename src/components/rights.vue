@@ -2,7 +2,7 @@
     <el-card class="box">
         <!-- 面包屑 -->
         <cus-bread level1="权限管理" level2="权限列表"></cus-bread>
-        <el-button class="btn" type="primary">添加角色 </el-button>
+        <!-- <el-button class="btn" type="primary">添加角色 </el-button> -->
         <!-- 表格 -->
         <el-table height="450px" :data="list" style="width: 100%">
             <el-table-column type="index" label="#" width="160">
@@ -24,26 +24,24 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       list: []
-    }
+    };
   },
-  created () {
-    this.getTableData()
+  created() {
+    this.getTableData();
   },
   methods: {
-    async getTableData () {
-      const AUTH_TOKEN = localStorage.getItem('token')
-      this.$http.defaults.headers.common['Authorization'] = AUTH_TOKEN
-      const res = await this.$http.get(`rights/list`)
-      const { meta: { msg, status }, data } = res.data
+    async getTableData() {
+      const res = await this.$http.get(`rights/list`);
+      const { meta: { msg, status }, data } = res.data;
       if (status === 200) {
-        this.list = data
+        this.list = data;
       }
     }
   }
-}
+};
 </script>
 
 <style>

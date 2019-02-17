@@ -39,7 +39,7 @@
                             <i class="el-icon-location"></i>
                             <span>权限管理</span>
                         </template>
-                        <el-menu-item index="1-1">
+                        <el-menu-item index="roles">
                             <i class="el-icon-menu"></i>
                             角色列表
                         </el-menu-item>
@@ -102,24 +102,24 @@
 
 <script>
 export default {
-  beforeMount () {
-    if (!localStorage.getItem('token')) {
+  beforeMount() {
+    if (!localStorage.getItem("token")) {
       this.$router.push({
-        name: 'login'
-      })
+        name: "login"
+      });
     }
   },
   methods: {
-    handleLoginout () {
-      localStorage.clear()
+    handleLoginout() {
+      localStorage.clear();
       this.$router.push({
-        name: 'login'
-      })
+        name: "login"
+      });
       //   提示
-      this.$message.warning('退出成功')
+      this.$message.warning("退出成功");
     }
   }
-}
+};
 </script>
 
 <style>
