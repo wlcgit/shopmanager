@@ -24,26 +24,26 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
       list: []
-    };
+    }
   },
-  created() {
-    this.getTableData();
+  created () {
+    this.getTableData()
   },
   methods: {
-    async getTableData() {
-      const AUTH_TOKEN = localStorage.getItem("token");
-      this.$http.defaults.headers.common["Authorization"] = AUTH_TOKEN;
-      const res = await this.$http.get(`rights/list`);
-      const { meta: { msg, status }, data } = res.data;
+    async getTableData () {
+      const AUTH_TOKEN = localStorage.getItem('token')
+      this.$http.defaults.headers.common['Authorization'] = AUTH_TOKEN
+      const res = await this.$http.get(`rights/list`)
+      const { meta: { msg, status }, data } = res.data
       if (status === 200) {
-        this.list = data;
+        this.list = data
       }
     }
   }
-};
+}
 </script>
 
 <style>

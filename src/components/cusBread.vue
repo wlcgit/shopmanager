@@ -8,12 +8,12 @@
 
 <script>
 export default {
-  name: "cusBread",
-  data() {
-    return {};
+  name: 'cusBread',
+  data () {
+    return {}
   },
-  props: ["level1", "level2"]
-};
+  props: ['level1', 'level2']
+}
 </script>
 
 <style>
