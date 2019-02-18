@@ -1,44 +1,44 @@
 <template>
-    <el-card class="box">
-        <!-- 面包屑 -->
-        <cus-bread level1="权限管理" level2="角色列表"></cus-bread>
-        <el-button class="btn" type="primary" @click="showDiaAddUser()">添加角色 </el-button>
-        <!-- 对话框 添加用户对话框 -->
-        <el-dialog title="添加用户" :visible.sync="dialogFormVisibleAdd">
+  <el-card class="box">
+    <!-- 面包屑 -->
+    <cus-bread level1="权限管理" level2="角色列表"></cus-bread>
+    <el-button class="btn" type="primary" @click="showDiaAddUser()">添加角色 </el-button>
+    <!-- 对话框 添加用户对话框 -->
+    <el-dialog title="添加用户" :visible.sync="dialogFormVisibleAdd">
 
-            <el-form label-position="left" label-width="80px" :model="formdata">
-                <el-form-item label="角色名称">
-                    <el-input v-model="formdata.roleName"></el-input>
-                </el-form-item>
-                <el-form-item label="角色描述">
-                    <el-input v-model="formdata.roleDesc"></el-input>
-                </el-form-item>
+      <el-form label-position="left" label-width="80px" :model="formdata">
+        <el-form-item label="角色名称">
+          <el-input v-model="formdata.roleName"></el-input>
+        </el-form-item>
+        <el-form-item label="角色描述">
+          <el-input v-model="formdata.roleDesc"></el-input>
+        </el-form-item>
 
-            </el-form>
-            <div slot="footer" class="dialog-footer">
-                <el-button @click="dialogFormVisibleAdd = false">取 消</el-button>
-                <el-button type="primary" @click="addUser()">确 定</el-button>
-            </div>
-        </el-dialog>
-        <!-- 表格 -->
-        <el-table :data="list" style="width: 100%">
-            <el-table-column type="index" label="#" width="100">
-            </el-table-column>
-            <el-table-column prop="roleName" label="角色姓名" width="200">
-            </el-table-column>
-            <el-table-column prop="roleDesc" label="角色描述" width="200">
-            </el-table-column>
-            <el-table-column prop="name" label="操作" width="300">
-                <template slot-scope="scope">
-                    <el-button @click="showDiaEditUser(scope.row)" type="primary" icon="el-icon-edit" circle size="mini" plain></el-button>
-                    <el-button @click="showMsgBox(scope.row)" type="danger" icon="el-icon-delete" circle size="mini" plain></el-button>
-                    <el-button @click="showDiaSetRole(scope.row)" type="success" icon="el-icon-check" circle size="mini" plain></el-button>
-                </template>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisibleAdd = false">取 消</el-button>
+        <el-button type="primary" @click="addUser()">确 定</el-button>
+      </div>
+    </el-dialog>
+    <!-- 表格 -->
+    <el-table :data="list" style="width: 100%">
+      <el-table-column type="index" label="#" width="160">
+      </el-table-column>
+      <el-table-column prop="roleName" label="角色姓名" width="200">
+      </el-table-column>
+      <el-table-column prop="roleDesc" label="角色描述" width="200">
+      </el-table-column>
+      <el-table-column prop="name" label="操作" width="300">
+        <template slot-scope="scope">
+          <el-button @click="showDiaEditUser(scope.row)" type="primary" icon="el-icon-edit" circle size="mini" plain></el-button>
+          <el-button @click="showMsgBox(scope.row)" type="danger" icon="el-icon-delete" circle size="mini" plain></el-button>
+          <el-button @click="showDiaSetRole(scope.row)" type="success" icon="el-icon-check" circle size="mini" plain></el-button>
+        </template>
 
-            </el-table-column>
+      </el-table-column>
 
-        </el-table>
-    </el-card>
+    </el-table>
+  </el-card>
 </template>
 
 <script>
