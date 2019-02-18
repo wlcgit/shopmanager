@@ -30,9 +30,9 @@
       </el-table-column>
       <el-table-column prop="name" label="操作" width="300">
         <template slot-scope="scope">
-          <el-button @click="showDiaEditUser(scope.row)" type="primary" icon="el-icon-edit" circle size="mini" plain></el-button>
-          <el-button @click="showMsgBox(scope.row)" type="danger" icon="el-icon-delete" circle size="mini" plain></el-button>
-          <el-button @click="showDiaSetRole(scope.row)" type="success" icon="el-icon-check" circle size="mini" plain></el-button>
+          <el-button @click="showDiaEditRoles(scope.row)" type="primary" icon="el-icon-edit" circle size="mini" plain></el-button>
+          <el-button @click="showDelete(scope.row)" type="danger" icon="el-icon-delete" circle size="mini" plain></el-button>
+          <el-button @click="showDiaSetRights(scope.row)" type="success" icon="el-icon-check" circle size="mini" plain></el-button>
         </template>
 
       </el-table-column>
@@ -57,6 +57,7 @@ export default {
     this.getRolesData();
   },
   methods: {
+    showDiaSetRights() {},
     async getRolesData() {
       const res = await this.$http.get(`roles`);
       console.log(res);
@@ -81,7 +82,7 @@ export default {
       this.dialogFormVisibleAdd = true;
     },
     // 删除
-    showMsgBox(user) {
+    showDelete(user) {
       this.$confirm("是否删除用户?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
@@ -108,6 +109,9 @@ export default {
 
 <style>
 .box {
+  height: 100%;
+}
+.btn {
   margin-top: 20px;
 }
 </style>

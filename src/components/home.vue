@@ -102,24 +102,24 @@
 
 <script>
 export default {
-  beforeMount() {
-    if (!localStorage.getItem("token")) {
+  beforeMount () {
+    if (!localStorage.getItem('token')) {
       this.$router.push({
-        name: "login"
-      });
+        name: 'login'
+      })
     }
   },
   methods: {
-    handleLoginout() {
-      localStorage.clear();
+    handleLoginout () {
+      localStorage.clear()
       this.$router.push({
-        name: "login"
-      });
+        name: 'login'
+      })
       //   提示
-      this.$message.warning("退出成功");
+      this.$message.warning('退出成功')
     }
   }
-};
+}
 </script>
 
 <style>
