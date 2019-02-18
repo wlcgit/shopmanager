@@ -143,7 +143,7 @@ export default {
       },
       //   下拉框使用数据
       selectVal: 1,
-      //保存角色的数据
+      // 保存角色的数据
       roles: [],
       currUsername: "",
       //   要的用户id
@@ -178,7 +178,7 @@ export default {
       if (status === 200) {
         this.roles = data;
       }
-      //获取当前用户角色id
+      // 获取当前用户角色id
       const res2 = await this.$http.get(`users/${user.id}`);
       //   const { meta: { msg2, status2 }, data2 } = res2.data2;
       //   if (status === 200) {
@@ -267,7 +267,7 @@ export default {
       this.getTableData();
     },
 
-    //分页相关的方法
+    // 分页相关的方法
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
       this.pagenum = 1;
@@ -280,8 +280,6 @@ export default {
       this.getTableData();
     },
     async getTableData() {
-      const AUTH_TOKEN = localStorage.getItem("token");
-      this.$http.defaults.headers.common["Authorization"] = AUTH_TOKEN;
       const res = await this.$http.get(
         `users?query=${this.query}&pagenum=${this.pagenum}&pagesize=${
           this.pagesize
