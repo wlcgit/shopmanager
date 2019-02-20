@@ -46,40 +46,40 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
       menus: []
-    };
+    }
   },
-  beforeMount() {
+  beforeMount () {
     // if (!localStorage.getItem('token')) {
     //   this.$router.push({
     //     name: 'login'
     //   })
     // }
   },
-  created() {
-    this.getMwnus();
+  created () {
+    this.getMwnus()
   },
   methods: {
-    async getMwnus() {
-      const res = await this.$http.get(`menus`);
-      const { meta: { msg, status }, data } = res.data;
+    async getMwnus () {
+      const res = await this.$http.get(`menus`)
+      const { meta: { msg, status }, data } = res.data
       if (status === 200) {
-        console.log(data);
-        this.menus = data;
+        console.log(data)
+        this.menus = data
       }
     },
-    handleLoginout() {
-      localStorage.clear();
+    handleLoginout () {
+      localStorage.clear()
       this.$router.push({
-        name: "login"
-      });
+        name: 'login'
+      })
       //   提示
-      this.$message.warning("退出成功");
+      this.$message.warning('退出成功')
     }
   }
-};
+}
 </script>
 
 <style>
