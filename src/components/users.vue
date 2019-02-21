@@ -159,6 +159,8 @@ export default {
       const res = await this.$http.put(`users/${this.currUserId}/role`, {
         rid: this.selectVal
       })
+      console.log(res);
+      
       const { meta: { msg, status } } = res.data
       if (status === 200) {
         //    关闭对话框

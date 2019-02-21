@@ -72,25 +72,25 @@
 </template>
 
 <script>
-import "quill/dist/quill.core.css";
-import "quill/dist/quill.snow.css";
-import "quill/dist/quill.bubble.css";
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
 
-import { quillEditor } from "vue-quill-editor";
+import { quillEditor } from 'vue-quill-editor'
 export default {
   components: {
     quillEditor
   },
-  data() {
+  data () {
     return {
-      active: "1",
+      active: '1',
       form: {
-        goods_name: "",
-        goods_price: "",
-        goods_weight: "",
-        goods_number: "",
-        goods_cat: "",
-        goods_introduce: "",
+        goods_name: '',
+        goods_price: '',
+        goods_weight: '',
+        goods_number: '',
+        goods_cat: '',
+        goods_introduce: '',
         pics: [],
         attrs: []
       },
@@ -98,8 +98,8 @@ export default {
       options: [],
       selectedOptions: [1, 3, 6],
       defaultProp: {
-        label: "cat_name",
-        value: "cat_id"
+        label: 'cat_name',
+        value: 'cat_id'
         // children: "children"
       },
       //   checkList: [],
@@ -108,26 +108,26 @@ export default {
       //   静态参数的数组
       arrStatic: [],
       headers: {
-        Authorization: localStorage.getItem("token")
+        Authorization: localStorage.getItem('token')
       }
-    };
+    }
   },
-  created() {
-    this.getGoodsCate();
+  created () {
+    this.getGoodsCate()
   },
   methods: {
     // 添加商品
-    async addGoods() {
-      this.form.goods_cat = this.selectedOptions.join(",");
-      this.pics;
+    async addGoods () {
+      this.form.goods_cat = this.selectedOptions.join(',')
+      this.pics
 
       // 处理动态
       const arr1 = this.arrDy.map(item => {
-        return { attr_id: item.attr_id, attr_value: item.attr_vals };
-      });
+        return { attr_id: item.attr_id, attr_value: item.attr_vals }
+      })
       const arr2 = this.arrStatic.map(item => {
-        return { attr_id: item.attr_id, attr_value: item.attr_vals };
-      });
+        return { attr_id: item.attr_id, attr_value: item.attr_vals }
+      })
       // const obj1 = { attr_id: "", attr_vals: "" };
       // const arr1 = [];
       // this.arrDy.forEach(item => {
@@ -143,90 +143,90 @@ export default {
       //   obj2.attr_vals = item.attr_vals;
       //   arr2.push(obj2);
       // });
-      this.form.attrs = [...arr1, ...arr2];
-      const res = await this.$http.post(`goods`, this.form);
-      const { meta: { msg, status } } = res.data;
+      this.form.attrs = [...arr1, ...arr2]
+      const res = await this.$http.post(`goods`, this.form)
+      const { meta: { msg, status } } = res.data
       if (status === 201) {
         // 回到列表
         this.$router.push({
-          name: "goods"
-        });
+          name: 'goods'
+        })
       } else {
-        this.$message.error(msg);
+        this.$message.error(msg)
       }
     },
-    handleRemove(file, fileList) {
-      console.log("remove----");
+    handleRemove (file, fileList) {
+      console.log('remove----')
 
       const Index = this.form.pics.findIndex(item => {
-        return item.pic === file.response.data.tmp_path;
-      });
-      this.form.pics.splice(Index, 1);
+        return item.pic === file.response.data.tmp_path
+      })
+      this.form.pics.splice(Index, 1)
     },
-    handleSuccess(res, file, fileList) {
-      console.log("success----");
+    handleSuccess (res, file, fileList) {
+      console.log('success----')
       this.form.pics.push({
         pic: res.data.tmp_path
-      });
+      })
     },
     //   点击任何tab触发
-    async changeTab() {
+    async changeTab () {
       // 如果点击第二个
       // 如果分类是三级
-      if (this.active === "2" || this.active === "3") {
+      if (this.active === '2' || this.active === '3') {
         if (this.selectedOptions.length !== 3) {
           // 提示
-          this.$message.error("请先选择三级分类！");
-          //请空
-          if (this.active === "2") {
-            this.arrDy = [];
+          this.$message.error('请先选择三级分类！')
+          // 请空
+          if (this.active === '2') {
+            this.arrDy = []
           } else {
-            this.arrStatic = [];
+            this.arrStatic = []
           }
-          return;
+          return
         }
-        if (this.active === "2") {
+        if (this.active === '2') {
           // 获取动态数据
           const res = await this.$http.get(
             `categories/${this.selectedOptions[2]}/attributes?sel=many`
-          );
-          const { meta: { msg, status }, data } = res.data;
+          )
+          const { meta: { msg, status }, data } = res.data
           if (status === 200) {
-            this.arrDy = data;
+            this.arrDy = data
             this.arrDy.forEach(item => {
               item.attr_vals =
                 item.attr_vals.trim().length === 0
                   ? []
-                  : item.attr_vals.trim().split(",");
-            });
+                  : item.attr_vals.trim().split(',')
+            })
           }
         }
-        if (this.active === "3") {
+        if (this.active === '3') {
           // 获取静态数据
           const res = await this.$http.get(
             `categories/${this.selectedOptions[2]}/attributes?sel=only`
-          );
-          const { meta: { msg, status }, data } = res.data;
+          )
+          const { meta: { msg, status }, data } = res.data
           if (status === 200) {
-            this.arrStatic = data;
+            this.arrStatic = data
           }
         }
       }
     },
 
     //   获取三级分类的数据
-    async getGoodsCate() {
-      const res = await this.$http.get(`categories?type=3`);
-      const { meta: { msg, status }, data } = res.data;
+    async getGoodsCate () {
+      const res = await this.$http.get(`categories?type=3`)
+      const { meta: { msg, status }, data } = res.data
       if (status === 200) {
-        this.options = data;
-        console.log(this.options);
+        this.options = data
+        console.log(this.options)
       }
     },
 
-    handleChange() {}
+    handleChange () {}
   }
-};
+}
 </script>
 
 <style>
