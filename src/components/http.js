@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { Message } from 'element-ui'
 const HttpServer = {}
 HttpServer.install = function (Vue) {
   axios.defaults.baseURL = 'http://localhost:8888/api/private/v1/'
@@ -15,6 +16,22 @@ HttpServer.install = function (Vue) {
     return config
   }, function (error) {
     // 对请求错误做些什么
+    return Promise.reject(error)
+  })
+  // 添加 响应拦截器
+  axios.interceptors.response.use(function (response) {
+    console.log('res拦截器被触发--')
+    console.log(response);
+    const {
+      meta: {
+        status, msg
+      }
+    } = response.data;
+    if (status !== 200 && status !== 201) {
+      Message.warning(msg);
+    }
+    return response
+  }, function (error) {
     return Promise.reject(error)
   })
 
