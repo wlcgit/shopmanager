@@ -1,66 +1,66 @@
 <template>
-    <el-card class="box">
-        <cus-bread level1='商品管理' level2='分类参数'></cus-bread>
-        <el-alert class="alert" title="注意：只允许为第三级分类设置参数" type="warning" show-icon>
-        </el-alert>
-        <el-form class="form" label-position="left" label-width="160px" :model="form">
-            <el-form-item label="请选择商品分类">
-                {{selectedOptions}}
-                <el-cascader clearable expand-trigger="hover" :options="options" v-model="selectedOptions" @change="handleChange" :props="defaultProp">
-                </el-cascader>
-            </el-form-item>
-        </el-form>
-        <el-tabs type="border-card" v-model="active" @tab-click="changeTab()">
-            <el-tab-pane name="1" label="动态参数">
-                <el-button disabled>设置动态参数
-                </el-button>
-                <el-table height="450px" border stripe :data="arrDy" style="width: 100%">
-                    <el-table-column type="expand" width="140">
-                        <template slot-scope="scope">
-                            <el-tag :key="i" v-for="(attr,i) in scope.row.attr_vals" closable :disable-transitions="false" @close="handleClose(scope.row,attr)">
-                                {{attr}}
-                            </el-tag>
-                            <el-input class="input-new-tag" v-if="inputVisible" v-model="inputValue" ref="saveTagInput" size="small" @keyup.enter.native="handleInputConfirm(scope.row)" @blur="handleInputConfirm(scope.row)">
-                            </el-input>
-                            <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button>
-                        </template>
-                    </el-table-column>
-                    <el-table-column type="index" label="#" width="120">
-                    </el-table-column>
+  <el-card class="box">
+    <cus-bread level1='商品管理' level2='分类参数'></cus-bread>
+    <el-alert class="alert" title="注意：只允许为第三级分类设置参数" type="warning" show-icon>
+    </el-alert>
+    <el-form class="form" label-position="left" label-width="160px" :model="form">
+      <el-form-item label="请选择商品分类">
+        {{selectedOptions}}
+        <el-cascader clearable expand-trigger="hover" :options="options" v-model="selectedOptions" @change="handleChange" :props="defaultProp">
+        </el-cascader>
+      </el-form-item>
+    </el-form>
+    <el-tabs type="border-card" v-model="active" @tab-click="changeTab()">
+      <el-tab-pane name="1" label="动态参数">
+        <el-button disabled>设置动态参数
+        </el-button>
+        <el-table @expand-change="fn" height="450px" border stripe :data="arrDy" style="width: 100%">
+          <el-table-column type="expand" width="140">
+            <template slot-scope="scope">
+              <el-tag :key="i" v-for="(attr,i) in scope.row.attr_vals" closable :disable-transitions="false" @close="handleClose(scope.row,attr)">
+                {{attr}}
+              </el-tag>
+              <el-input class="input-new-tag" v-if="inputVisible" v-model="inputValue" ref="saveTagInput" size="small" @keyup.enter.native="handleInputConfirm(scope.row)" @blur="handleInputConfirm(scope.row)">
+              </el-input>
+              <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button>
+            </template>
+          </el-table-column>
+          <el-table-column type="index" label="#" width="120">
+          </el-table-column>
 
-                    <el-table-column prop="attr_name" label="属性名称" width="240">
-                    </el-table-column>
+          <el-table-column prop="attr_name" label="属性名称" width="240">
+          </el-table-column>
 
-                    <el-table-column label="操作" width="200">
-                        <template slot-scope="scope">
-                            <el-button plain size="mini" type="primary" icon="el-icon-edit" circle></el-button>
-                            <el-button plain size="mini" type="danger" icon="el-icon-delete" circle></el-button>
-                        </template>
-                    </el-table-column>
-                </el-table>
-            </el-tab-pane>
-            <el-tab-pane name="2" label="静态参数">
-                <el-button disabled>设置静态参数
-                </el-button>
-                <el-table height="350px" border stripe :data="arrStatic" style="width: 100%">
-                    <el-table-column type="index" label="#" width="120">
-                    </el-table-column>
+          <el-table-column label="操作" width="200">
+            <template slot-scope="scope">
+              <el-button plain size="mini" type="primary" icon="el-icon-edit" circle></el-button>
+              <el-button plain size="mini" type="danger" icon="el-icon-delete" circle></el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-tab-pane>
+      <el-tab-pane name="2" label="静态参数">
+        <el-button disabled>设置静态参数
+        </el-button>
+        <el-table height="350px" border stripe :data="arrStatic" style="width: 100%">
+          <el-table-column type="index" label="#" width="120">
+          </el-table-column>
 
-                    <el-table-column prop="attr_name" label="属性名称" width="240">
-                    </el-table-column>
-                    <el-table-column prop="attr_vals" label="属性值" width="240">
-                    </el-table-column>
+          <el-table-column prop="attr_name" label="属性名称" width="240">
+          </el-table-column>
+          <el-table-column prop="attr_vals" label="属性值" width="240">
+          </el-table-column>
 
-                    <el-table-column label="操作" width="200">
-                        <template slot-scope="scope">
-                            <el-button plain size="mini" type="primary" icon="el-icon-edit" circle></el-button>
-                            <el-button plain size="mini" type="danger" icon="el-icon-delete" circle></el-button>
-                        </template>
-                    </el-table-column>
-                </el-table>
-            </el-tab-pane>
-        </el-tabs>
-    </el-card>
+          <el-table-column label="操作" width="200">
+            <template slot-scope="scope">
+              <el-button plain size="mini" type="primary" icon="el-icon-edit" circle></el-button>
+              <el-button plain size="mini" type="danger" icon="el-icon-delete" circle></el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-tab-pane>
+    </el-tabs>
+  </el-card>
 </template>
 
 <script>
@@ -87,6 +87,11 @@ export default {
     this.getGoodsCate();
   },
   methods: {
+    fn(row, expandedRows) {
+      if (expandedRows.length > 1) {
+        expandedRows.shift();
+      }
+    },
     //   删除attr_vals的值
     async handleClose(item, attr) {
       item.attr_vals.splice(item.attr_vals.indexOf(attr), 1);

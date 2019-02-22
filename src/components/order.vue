@@ -53,15 +53,15 @@
 </template>
 
 <script>
-import Catlist from "@/assets/city_data2017_element.js";
+import Catlist from '@/assets/city_data2017_element.js'
 
 export default {
-  data() {
+  data () {
     return {
       list: [],
       dialogFormVisible: false,
       form: {
-        address: ""
+        address: ''
       },
       // 级联选择器要绑定的数据
 
@@ -73,27 +73,27 @@ export default {
       //   label:"label",
       //   children:"children"
       // }
-    };
+    }
   },
-  created() {
-    this.getData();
+  created () {
+    this.getData()
   },
   methods: {
     // 获取表格数据
-    async getData() {
-      const res = await this.$http.get(`orders?pagenum=1&pagesize=10`);
+    async getData () {
+      const res = await this.$http.get(`orders?pagenum=1&pagesize=10`)
       // console.log(res);
-      this.list = res.data.data.goods;
+      this.list = res.data.data.goods
     },
     // 打开对话框
 
-    showEditdia() {
-      this.catlist = Catlist;
+    showEditdia () {
+      this.catlist = Catlist
 
-      this.dialogFormVisible = true;
+      this.dialogFormVisible = true
     }
   }
-};
+}
 </script>
 
 <style>

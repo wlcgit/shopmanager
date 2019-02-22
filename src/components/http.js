@@ -21,14 +21,14 @@ HttpServer.install = function (Vue) {
   // 添加 响应拦截器
   axios.interceptors.response.use(function (response) {
     console.log('res拦截器被触发--')
-    console.log(response);
+    console.log(response)
     const {
       meta: {
         status, msg
       }
-    } = response.data;
+    } = response.data
     if (status !== 200 && status !== 201) {
-      Message.warning(msg);
+      Message.warning(msg)
     }
     return response
   }, function (error) {

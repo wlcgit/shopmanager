@@ -21,7 +21,7 @@
       </div>
     </el-dialog>
     <!-- 表格 -->
-    <el-table :data="list" style="width: 100%">
+    <el-table @expand-change="fn" :data="list" style="width: 100%">
       <el-table-column type="expand">
         <template slot-scope="scope">
           <!-- 行列 -->
@@ -87,12 +87,12 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       dialogFormVisibleAdd: false,
       formdata: {
-        roleName: '',
-        roleDesc: ''
+        roleName: "",
+        roleDesc: ""
       },
       list: [],
       dialogFormVisible: false,
@@ -100,56 +100,61 @@ export default {
       treedata: [],
       arrCheck: [],
       defaultProps: {
-        label: 'authName',
-        children: 'children'
+        label: "authName",
+        children: "children"
       },
       currRoleId: -1
-    }
+    };
   },
-  created () {
-    this.getRolesData()
+  created() {
+    this.getRolesData();
   },
   methods: {
+    fn(row, expandedRows) {
+      if (expandedRows.length > 1) {
+        expandedRows.shift();
+      }
+    },
     // 分配权限
-    async setRights () {
+    async setRights() {
       // 取出每一个节点
 
       // 获取树形结构中全选id
-      const arr1 = this.$refs.treeDom.getCheckedKeys()
+      const arr1 = this.$refs.treeDom.getCheckedKeys();
 
       // // 获取树形结构中半选id
-      const arr2 = this.$refs.treeDom.getHalfCheckedKeys()
+      const arr2 = this.$refs.treeDom.getHalfCheckedKeys();
 
-      const arr = [...arr1, ...arr2]
+      const arr = [...arr1, ...arr2];
       //  发送请求
       const res = await this.$http.post(`roles/${this.currRoleId}/rights`, {
-        rids: arr.join(',')
-      })
+        rids: arr.join(",")
+      });
       if (res.data.meta.status === 200) {
-        this.dialogFormVisible = false
-        this.getRolesData()
+        this.dialogFormVisible = false;
+        this.getRolesData();
       }
     },
     // 取消权限
-    async deleRights (role, rights) {
+    async deleRights(role, rights) {
       const res = await this.$http.delete(
         `roles/${role.id}/rights/${rights.id}`
-      )
-      const { meta: { msg, status }, data } = res.data
+      );
+      const { meta: { msg, status }, data } = res.data;
       if (status === 200) {
         // 提示
-        this.$message.success(msg)
+        this.$message.success(msg);
         // 更新、
-        role.children = data
+        role.children = data;
       }
     },
-    async showDiaSetRights (role) {
-      this.currRoleId = role.id
-      const res = await this.$http.get(`rights/tree`)
-      console.log(res)
-      const { meta: { msg, status }, data } = res.data
+    async showDiaSetRights(role) {
+      this.currRoleId = role.id;
+      const res = await this.$http.get(`rights/tree`);
+      console.log(res);
+      const { meta: { msg, status }, data } = res.data;
       if (status === 200) {
-        this.treedata = data
+        this.treedata = data;
         // const temp = [];
         // this.treedata.forEach(item1 => {
         //   temp.push(item1.id);
@@ -163,68 +168,68 @@ export default {
         // console.log(temp);
         // this.arrExpand = temp;
       }
-      const temp = []
+      const temp = [];
       role.children.forEach(item1 => {
         // temp.push(item1.id);
         item1.children.forEach(item2 => {
           // temp.push(item2.id);
           item2.children.forEach(item3 => {
-            temp.push(item3.id)
-          })
-        })
-      })
+            temp.push(item3.id);
+          });
+        });
+      });
       // console.log(temp);
-      this.arrCheck = temp
+      this.arrCheck = temp;
 
-      this.dialogFormVisible = true
+      this.dialogFormVisible = true;
     },
-    async getRolesData () {
-      const res = await this.$http.get(`roles`)
-      console.log(res)
-      const { meta: { msg, status }, data } = res.data
+    async getRolesData() {
+      const res = await this.$http.get(`roles`);
+      console.log(res);
+      const { meta: { msg, status }, data } = res.data;
       if (status === 200) {
-        this.list = data
+        this.list = data;
       }
     },
     //   添加用户 发送请求
-    async addUser () {
-      const res = await this.$http.post(`roles`, this.formdata)
+    async addUser() {
+      const res = await this.$http.post(`roles`, this.formdata);
 
       // 关闭对话框
-      this.dialogFormVisibleAdd = false
+      this.dialogFormVisibleAdd = false;
       //    更新表格
-      this.getRolesData()
+      this.getRolesData();
     },
     //   添加用户，展示对话框
-    showDiaAddUser () {
+    showDiaAddUser() {
       //   清空;
-      this.formdata = {}
-      this.dialogFormVisibleAdd = true
+      this.formdata = {};
+      this.dialogFormVisibleAdd = true;
     },
     // 删除
-    showDelete (user) {
-      this.$confirm('是否删除用户?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
+    showDelete(user) {
+      this.$confirm("是否删除用户?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
       })
         .then(async () => {
           // 发送请求
-          const res = await this.$http.delete(`roles/${user.id}`)
+          const res = await this.$http.delete(`roles/${user.id}`);
 
-          const { meta: { msg, status } } = res.data
+          const { meta: { msg, status } } = res.data;
           if (status === 200) {
             // 提示框
-            this.$message.success(msg)
-            this.getRolesData()
+            this.$message.success(msg);
+            this.getRolesData();
           }
         })
         .catch(() => {
-          this.$message.info('已取消删除')
-        })
+          this.$message.info("已取消删除");
+        });
     }
   }
-}
+};
 </script>
 
 <style>
